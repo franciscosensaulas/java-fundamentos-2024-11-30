@@ -18,10 +18,10 @@ public class ExemploEstruturaCondicionalOu {
         /*
          * Operador Lógico Ou em java é ||
          * Tabela Verdade
-         *  V ou V => 
-         *  V ou F => 
-         *  F ou V => 
-         *  F ou F => 
+         *  V ou V => V
+         *  V ou F => V
+         *  F ou V => V
+         *  F ou F => F
          */
     }
 }

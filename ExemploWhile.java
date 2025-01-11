@@ -2,7 +2,7 @@ import javax.swing.JOptionPane;
 
 public class ExemploWhile {
     public static void main(String[] args) {
-        exemploQuantidadePorCategoria();
+        exemploSoma();
     }
 
     private static void exemplo01() {
@@ -23,7 +23,8 @@ public class ExemploWhile {
         int indice = 0;
         // Variável que contém a quantidade de pacientes que será solicitado as
         // informações
-        int quantidadePacientes = 3;
+        int quantidadePacientes = Integer.parseInt(
+            JOptionPane.showInputDialog("Digite a quantidade de pacientes desejada"));
         int soma = 0;// Acumulador das idades
         // Enquanto o indice não for menor que a quantidade de pacientes que deseja
         // solicitar as informações, repetirá
