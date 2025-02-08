@@ -220,7 +220,7 @@ public class ExemploJFrame extends javax.swing.JFrame {
 
             // append seria manter o que tem e mais o texto novo
             jTextAreaResultados.append("Soma: " + soma + "\n");
-        }
+        } 
     }//GEN-LAST:event_jButtonCalcularActionPerformed
 
     /**
