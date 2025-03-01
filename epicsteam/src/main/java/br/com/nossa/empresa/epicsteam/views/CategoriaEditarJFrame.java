@@ -4,6 +4,7 @@
  */
 package br.com.nossa.empresa.epicsteam.views;
 
+import br.com.nossa.empresa.epicsteam.dao.CategoriaDao;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -93,15 +94,21 @@ public class CategoriaEditarJFrame extends javax.swing.JFrame {
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
         var nome = jTextFieldNome.getText();
 
-        try {
-            var conexao = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/steamdb", "root", "admin");
-            var query = "UPDATE categorias SET nome = \"" + nome + 
-                    "\" WHERE id = " + idParaEditar;
-            var statement = conexao.createStatement();
-            statement.execute(query);
-            JOptionPane.showMessageDialog(null, "Categoria alterada com sucesso");
-            
+        var categoriaDao = new CategoriaDao();
+        categoriaDao.editar(idParaEditar, nome);
+        JOptionPane.showMessageDialog(null, "Categoria alterada com sucesso");
+        dispose();
+    }//GEN-LAST:event_jButtonSalvarActionPerformed
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonCancelar;
+    private javax.swing.JButton jButtonSalvar;
+    private javax.swing.JLabel jLabelNome;
+    private javax.swing.JTextField jTextFieldNome;
+    // End of variables declaration//GEN-END:variables
+}
+
+
 /*
     Exercício: Permitir o usuário listar, cadastrar, editar e apagar clientes
             Deve conter os seguintes campos:
@@ -113,17 +120,3 @@ public class CategoriaEditarJFrame extends javax.swing.JFrame {
                 - ClienteListaJFrame
                 - ClienteEditarJFrame
 */
-            dispose();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Não foi possível conectar no banco de dados");
-            e.printStackTrace();
-        }
-    }//GEN-LAST:event_jButtonSalvarActionPerformed
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonCancelar;
-    private javax.swing.JButton jButtonSalvar;
-    private javax.swing.JLabel jLabelNome;
-    private javax.swing.JTextField jTextFieldNome;
-    // End of variables declaration//GEN-END:variables
-}

@@ -4,19 +4,11 @@
  */
 package br.com.nossa.empresa.epicsteam.views;
 
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import br.com.nossa.empresa.epicsteam.dao.CategoriaDao;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import javax.swing.DefaultCellEditor;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 
 /**
  *
@@ -151,7 +143,7 @@ public class CategoriaListaJFrame extends javax.swing.JFrame {
         var idCategoria = Integer.parseInt(
                 modeloTabela.getValueAt(indiceLinhaSelecionada, 0).toString());
         var nomeCategoria = modeloTabela.getValueAt(indiceLinhaSelecionada, 1).toString();
-        
+
         var jFrame = new CategoriaEditarJFrame(idCategoria, nomeCategoria);
         jFrame.setVisible(true);
     }//GEN-LAST:event_jButtonEditarActionPerformed
@@ -171,52 +163,25 @@ public class CategoriaListaJFrame extends javax.swing.JFrame {
         }
 
         var idApagar = Integer.parseInt(idTexto);
-        try {
-            var url = "jdbc:mysql://localhost:3306/steamdb";
-            var usuario = "root";
-            var senha = "admin";
-            var conexao = DriverManager.getConnection(url, usuario, senha);
-            var query = "DELETE FROM categorias WHERE id = " + idApagar;
-            var statement = conexao.createStatement();
-            statement.execute(query);
-            JOptionPane.showMessageDialog(null, "Categoria apagada com sucesso");
-            carregarCategorias();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Não foi possível conectar no banco de dados");
-            e.printStackTrace();
-        }
+        var categoriaDao = new CategoriaDao();
+        categoriaDao.apagar(idApagar);
+        // Refatoração: modificar um código que funciona e aperfeiçoar ele.
+        JOptionPane.showMessageDialog(null, "Categoria apagada com sucesso");
+        carregarCategorias();
     }//GEN-LAST:event_jButtonApagarActionPerformed
 
     private void carregarCategorias() {
         var modeloTabela = (DefaultTableModel) jTableCategorias.getModel();
         modeloTabela.setRowCount(0);
-        try {
-            var url = "jdbc:mysql://localhost:3306/steamdb";
-            var usuario = "root";
-            var senha = "admin";
-            // Abre a conexão com banco de dados
-            var connection = DriverManager.getConnection(url, usuario, senha);
-            // Statement permite executar query no banco de dados
-            var statement = connection.createStatement();
-            // query pode ser SELECT, INSERT, UPDATE, DELETE, CREATE
-            var query = "SELECT id, nome FROM categorias";
-            // Executa a consulta na tabela de categorias
-            statement.execute(query);
-            // Obter a lista dos registros das categorias
-            var resultSet = statement.getResultSet();
-            // Percorre cada um dos registros das categorias
-            while (resultSet.next()) {
-                // Obtém o valor da coluna que foi passado no SELECT
-                var id = Integer.parseInt(resultSet.getString("id"));
-                var nome = resultSet.getString("nome");
 
-                modeloTabela.addRow(new Object[]{
-                    id,
-                    nome,});
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Não foi possível conectar no banco de dados");
-            e.printStackTrace();
+        var categoriaDao = new CategoriaDao();
+        var categorias = categoriaDao.obterTodas();
+
+        for (var categoria : categorias) {
+            modeloTabela.addRow(new Object[]{
+                categoria.getId(),
+                categoria.getNome(),
+            });
         }
     }
 

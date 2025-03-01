@@ -4,6 +4,8 @@
  */
 package br.com.nossa.empresa.epicsteam.views;
 
+import br.com.nossa.empresa.epicsteam.dao.CategoriaDao;
+import br.com.nossa.empresa.epicsteam.database.Conexao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -106,92 +108,33 @@ public class CategoriaCadastoJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     private void jButtonCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastrarActionPerformed
-        Connection conexao = null;
-        Statement statement = null;
-        try {
-            var url = "jdbc:mysql://localhost:3306/steamdb";
-            var usuario = "root";
-            var senha = "admin";
-
-            conexao = DriverManager.getConnection(url, usuario, senha);
-            // trim remove os espaços do começo e fim da String
-            var nomeCategoria = jTextFieldNome.getText().trim();
-            if (nomeCategoria.length() < 3) {
-                JOptionPane.showMessageDialog(this, "Nome deve conter no mínimo 3 caracteres");
-                return;
-            }
-
-            if (nomeCategoria.length() > 200) {
-                JOptionPane.showMessageDialog(this, "Nome deve conter no máximo 200 caracteres");
-                return;
-            }
-
-            var query = "INSERT INTO categorias (nome) VALUES (\"" + nomeCategoria + "\")";
-            statement = conexao.createStatement();
-            statement.execute(query);
-            JOptionPane.showMessageDialog(null, "Categoria criada com sucesso");
-            dispose();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Não foi possível conectar no banco de dados");
-            e.printStackTrace();
-        } finally {
-            try {
-                // Finally é um trecho de código que será executado caso executar com suceso ou erro
-                // Verificando que o statement está instanciado
-                if (statement != null) // Fechar o statement
-                {
-                    statement.close();
-                }
-                // Verificando que a conexão está instanciada
-                if (conexao != null) {
-                    conexao.close();
-                }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null,
-                        "Não foi possível fechar a conexão do banco de dados");
-
-            }
+        // trim remove os espaços do começo e fim da String
+        var nomeCategoria = jTextFieldNome.getText().trim();
+        if (nomeCategoria.length() < 3) {
+            JOptionPane.showMessageDialog(this, "Nome deve conter no mínimo 3 caracteres");
+            return;
         }
+
+        if (nomeCategoria.length() > 200) {
+            JOptionPane.showMessageDialog(this, "Nome deve conter no máximo 200 caracteres");
+            return;
+        }
+
+        var categoriaDao = new CategoriaDao();
+        categoriaDao.cadastrar(nomeCategoria);
+        JOptionPane.showMessageDialog(null, "Categoria cadastrada com sucesso");
+        dispose();
     }//GEN-LAST:event_jButtonCadastrarActionPerformed
 
     private void jButtonCadastrarNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastrarNovoActionPerformed
-        Connection conexao = null;
-        Statement statement = null;
-        try {
-            var url = "jdbc:mysql://localhost:3306/steamdb";
-            var usuario = "root";
-            var senha = "admin";
-
-            conexao = DriverManager.getConnection(url, usuario, senha);
-
-            var nomeCategoria = jTextFieldNome.getText();
-            var query = "INSERT INTO categorias (nome) VALUES (\"" + nomeCategoria + "\")";
-            statement = conexao.createStatement();
-            statement.execute(query);
-            JOptionPane.showMessageDialog(null, "Categoria criada com sucesso");
-            jTextFieldNome.setText("");
-            jTextFieldNome.requestFocus();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Não foi possível conectar no banco de dados");
-            e.printStackTrace();
-        } finally {
-            try {
-                // Finally é um trecho de código que será executado caso executar com suceso ou erro
-                // Verificando que o statement está instanciado
-                if (statement != null) // Fechar o statement
-                {
-                    statement.close();
-                }
-                // Verificando que a conexão está instanciada
-                if (conexao != null) {
-                    conexao.close();
-                }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null,
-                        "Não foi possível fechar a conexão do banco de dados");
-
-            }
-        }
+        var nomeCategoria = jTextFieldNome.getText();
+        
+        var categoriaDao = new CategoriaDao();
+        categoriaDao.cadastrar(nomeCategoria);
+        
+        JOptionPane.showMessageDialog(null, "Categoria criada com sucesso");
+        jTextFieldNome.setText("");
+        jTextFieldNome.requestFocus();
     }//GEN-LAST:event_jButtonCadastrarNovoActionPerformed
 
 
