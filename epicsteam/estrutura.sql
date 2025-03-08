@@ -11,3 +11,24 @@ CREATE TABLE categorias(
 -- AUTO_INCREMENT é utilizado para definir um código sequencia automagicamente
 -- VARCHAR é o tipo utilizado para texto e 200 é a qtd máxima de caracteres 
 -- que pode armazenar
+
+
+CREATE TABLE softwares (
+	id INT PRIMARY KEY AUTO_INCREMENT,
+    id_categoria INT NOT NULL,
+    nome VARCHAR(150) NOT NULL,
+    url VARCHAR(100),
+	-- Criando o relacionamento da tabela de softwares com a tabela de categorias
+    FOREIGN KEY (id_categoria) REFERENCES categorias(id)
+);
+
+INSERT INTO categorias (nome) VALUES
+("Programação"),
+("Engenharia"),
+("Saúde");
+
+SELECT * FROM categorias;
+SELECT * FROM softwares;
+
+
+
