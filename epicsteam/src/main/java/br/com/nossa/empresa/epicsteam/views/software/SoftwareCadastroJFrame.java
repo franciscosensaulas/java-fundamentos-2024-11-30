@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package br.com.nossa.empresa.epicsteam.views;
+package br.com.nossa.empresa.epicsteam.views.software;
 
 import br.com.nossa.empresa.epicsteam.bean.CategoriaBean;
 import br.com.nossa.empresa.epicsteam.bean.SoftwareBean;
@@ -10,16 +10,17 @@ import br.com.nossa.empresa.epicsteam.dao.CategoriaDao;
 import br.com.nossa.empresa.epicsteam.dao.SoftwareDao;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author francisco.sens
  */
-public class SoftwareJFrame extends javax.swing.JFrame {
+public class SoftwareCadastroJFrame extends javax.swing.JFrame {
     /**
      * Creates new form SoftwareJFrame
      */
-    public SoftwareJFrame() {
+    public SoftwareCadastroJFrame() {
         initComponents();
         carregarCategoriasNoComboBox();
     }
@@ -42,7 +43,7 @@ public class SoftwareJFrame extends javax.swing.JFrame {
         jButtonCadastrar = new javax.swing.JButton();
         jButtonCancelar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabelNome.setText("Nome");
 
@@ -60,6 +61,11 @@ public class SoftwareJFrame extends javax.swing.JFrame {
         });
 
         jButtonCancelar.setText("Cancelar");
+        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -112,6 +118,7 @@ public class SoftwareJFrame extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastrarActionPerformed
@@ -126,8 +133,13 @@ public class SoftwareJFrame extends javax.swing.JFrame {
         
         var softwareDao = new SoftwareDao();
         softwareDao.cadastrar(software);
+        JOptionPane.showMessageDialog(this, "Software cadastrado com sucesso");
         dispose();
     }//GEN-LAST:event_jButtonCadastrarActionPerformed
+
+    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
+        dispose();
+    }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     private void carregarCategoriasNoComboBox(){
         // Consultando todas as categorias na tabela de categorias, 
@@ -160,20 +172,21 @@ public class SoftwareJFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SoftwareJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SoftwareCadastroJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SoftwareJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SoftwareCadastroJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SoftwareJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SoftwareCadastroJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SoftwareJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SoftwareCadastroJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SoftwareJFrame().setVisible(true);
+                new SoftwareCadastroJFrame().setVisible(true);
             }
         });
     }

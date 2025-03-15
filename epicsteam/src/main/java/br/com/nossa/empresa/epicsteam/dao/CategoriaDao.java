@@ -96,7 +96,7 @@ public class CategoriaDao {
             // Statement permite executar query no banco de dados
             var statement = connection.createStatement();
             // query pode ser SELECT, INSERT, UPDATE, DELETE, CREATE
-            var query = "SELECT id, nome FROM categorias";
+            var query = "SELECT id, nome FROM categorias ORDER BY nome";
             // Executa a consulta na tabela de categorias
             statement.execute(query);
             // Obter a lista dos registros das categorias

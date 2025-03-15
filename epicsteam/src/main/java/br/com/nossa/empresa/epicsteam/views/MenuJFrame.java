@@ -4,6 +4,9 @@
  */
 package br.com.nossa.empresa.epicsteam.views;
 
+import br.com.nossa.empresa.epicsteam.views.categoria.CategoriaListaJFrame;
+import br.com.nossa.empresa.epicsteam.views.software.SoftwareListaJFrame;
+
 /**
  *
  * @author francisco.sens
@@ -27,6 +30,7 @@ public class MenuJFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jButtonCategorias = new javax.swing.JButton();
+        jButtonSoftwares = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menu");
@@ -38,6 +42,13 @@ public class MenuJFrame extends javax.swing.JFrame {
             }
         });
 
+        jButtonSoftwares.setText("Softwares");
+        jButtonSoftwares.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSoftwaresActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -45,13 +56,17 @@ public class MenuJFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(jButtonCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(273, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jButtonSoftwares, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(146, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addComponent(jButtonCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonSoftwares, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(224, Short.MAX_VALUE))
         );
 
@@ -63,6 +78,11 @@ public class MenuJFrame extends javax.swing.JFrame {
         var jFrame = new CategoriaListaJFrame();
         jFrame.setVisible(true);
     }//GEN-LAST:event_jButtonCategoriasActionPerformed
+
+    private void jButtonSoftwaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSoftwaresActionPerformed
+        var jFrame = new SoftwareListaJFrame();
+        jFrame.setVisible(true);
+    }//GEN-LAST:event_jButtonSoftwaresActionPerformed
 
     /**
      * @param args the command line arguments
@@ -101,5 +121,6 @@ public class MenuJFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCategorias;
+    private javax.swing.JButton jButtonSoftwares;
     // End of variables declaration//GEN-END:variables
 }

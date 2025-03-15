@@ -7,6 +7,7 @@ import br.com.nossa.empresa.epicsteam.database.Conexao;
 import br.com.nossa.empresa.epicsteam.exceptions.ErroAberturaConexaoBancoDadosException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.OptionalInt;
 import javax.swing.JOptionPane;
 
 public class SoftwareDao implements SoftwareDaoInterface {
@@ -50,11 +51,59 @@ public class SoftwareDao implements SoftwareDaoInterface {
     }
 
     @Override
-    public ArrayList<SoftwareBean> obterTodos(String pesquisa) {
+    public ArrayList<SoftwareBean> obterTodos(
+            String pesquisa,
+            OptionalInt categoriaId,
+            String colunaOrdenacao,
+            String colunaOrdem,
+            int quantidade,
+            int pagina) {
         var softwares = new ArrayList<SoftwareBean>();
         try (var connection = conexao.abrirConexao()) {
-            var comando = "SELECT * FROM softwares";
+            var comando = """
+                          SELECT 
+                              s.id,
+                              s.nome,
+                              s.url,
+                              s.id_categoria,
+                              categorias.nome AS 'categoria'
+                              FROM softwares AS s
+                              INNER JOIN categorias ON (s.id_categoria = categorias.id)
+                              WHERE s.nome LIKE ?
+                          """;
+            if (categoriaId.isEmpty() == false) {
+                comando += " AND s.id_categoria = ?";
+            }
+
+            String ordenacao;
+            if (colunaOrdenacao.equalsIgnoreCase("nome")) {
+                ordenacao = "s.nome";
+            } else if (colunaOrdenacao.equalsIgnoreCase("categoria")) {
+                ordenacao = "categorias.nome";
+            } else {
+                ordenacao = "s.id";
+            }
+
+            String ordem;
+            if (colunaOrdem.equalsIgnoreCase("ascendente")) {
+                ordem = "ASC";
+            } else {
+                ordem = "DESC";
+            }
+
+            comando += "\nORDER BY " + ordenacao + " " + ordem + "\nLIMIT ?, ?";
+
             try (var preparadorStatement = connection.prepareStatement(comando)) {
+                var indiceInterrogacao = 1;
+                preparadorStatement.setString(indiceInterrogacao++, "%" + pesquisa + "%");
+
+                if (categoriaId.isEmpty() == false) {
+                    preparadorStatement.setInt(indiceInterrogacao++, categoriaId.getAsInt());
+                }
+
+                preparadorStatement.setInt(indiceInterrogacao++, pagina * quantidade);
+                preparadorStatement.setInt(indiceInterrogacao++, quantidade);
+
                 preparadorStatement.execute();
                 var resultSet = preparadorStatement.getResultSet();
                 while (resultSet.next()) {
@@ -62,9 +111,10 @@ public class SoftwareDao implements SoftwareDaoInterface {
                     software.setId(resultSet.getInt("id"));
                     software.setNome(resultSet.getString("nome"));
                     software.setUrl(resultSet.getString("url"));
-                    
+
                     var categoria = new CategoriaBean();
                     categoria.setId(resultSet.getInt("id_categoria"));
+                    categoria.setNome(resultSet.getString("categoria"));
                     software.setCategoria(categoria);
                     softwares.add(software);
                 }
